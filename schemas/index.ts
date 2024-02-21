@@ -75,3 +75,27 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+export const RestaurantSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+  description: z.string().min(1, {
+    message: "Description is required",
+  }),
+  image: z.string().url({
+    message: "Image is required",
+  }),
+  address: z.string().min(1, {
+    message: "Address is required",
+  }),
+  phone: z.string().min(1, {
+    message: "Phone is required",
+  }),
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  website: z.string().url({
+    message: "Website is required",
+  }),
+});

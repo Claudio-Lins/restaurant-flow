@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        adminLayout: "minmax(18rem, 20rem) 1fr",
+      },
       fontFamily: {
         sans: "var(--font-inter)",
       },

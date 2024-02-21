@@ -41,7 +41,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html
         lang="en"
-        className="w-full bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900"
+        className="w-full bg-gradient-to-r from-rose-900 via-rose-700 to-rose-900"
       >
         <body
           className={cn(
