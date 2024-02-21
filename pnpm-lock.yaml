@@ -60,7 +60,7 @@ dependencies:
     specifier: ^2.1.0
     version: 2.1.0
   framer-motion:
-    specifier: ^11.0.2
+    specifier: ^11.0.3
     version: 11.0.3(react-dom@18.2.0)(react@18.2.0)
   gsap:
     specifier: ^3.12.5

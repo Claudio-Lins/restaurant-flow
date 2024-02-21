@@ -74,21 +74,21 @@ export function Hero() {
 
   return (
     <section ref={component}>
-      <div className="flex min-h-[70vh] w-[1200px] flex-col items-center justify-evenly md:flex-row">
+      <div className=" flex min-h-[70vh] w-[1200px] flex-col items-center justify-evenly md:flex-row">
         <div className="">
           <h1
             className="mb-8 text-[clamp(3rem,20vmin,20rem)] font-extrabold leading-none tracking-tighter"
             aria-label="Claudio Lins Front End Developer"
           >
-            <span className="block text-slate-300">
-              {renderLetters("Claudio", "first")}
+            <span className="block text-slate-400">
+              {renderLetters("Restaurant", "first")}
             </span>
-            <span className="-mt-[.2em] block text-slate-500">
-              {renderLetters("Lins", "last")}
+            <span className="-mt-[.2em] block text-slate-50 shadow-sm">
+              {renderLetters("Flow...", "last")}
             </span>
           </h1>
-          <span className="job-title block bg-gradient-to-tr from-yellow-500 via-yellow-100 to-yellow-500 bg-clip-text text-2xl font-bold uppercase tracking-[.2em] text-transparent opacity-0 md:text-4xl">
-            Front End Developer
+          <span className="job-title block bg-gradient-to-tr from-yellow-500 via-yellow-100 to-yellow-500 bg-clip-text text-center text-xl font-bold uppercase tracking-[.2em] text-transparent opacity-0 md:text-2xl">
+            Restaurant Management, Simple and Efficient.
           </span>
         </div>
         {!user && (

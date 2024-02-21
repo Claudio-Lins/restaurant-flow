@@ -1,12 +1,13 @@
-import { Plus } from "lucide-react";
+import { CookingPot, Plus } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 
 export default function ProductPage() {
   return (
     <div className=" w-full space-y-4">
-      <div>
-        <h1 className="text-muted">Produts</h1>
+      <div className="flex items-center gap-2">
+        <CookingPot strokeWidth={1} size={32} className="text-muted" />
+        <h1 className="mb-0 inline-block text-muted">Restaurants</h1>
       </div>
       <Separator />
       <div className="h-[calc(80vh)] rounded-lg bg-slate-100/50 p-8">
