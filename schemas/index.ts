@@ -130,8 +130,8 @@ export const RestaurantEmailSchema = z.object({
 
 export const RestaurantPhoneSchema = z.object({
   id: z.string(),
-  phone: z.string().email({
-    message: "Email is required",
+  phone: z.string().min(1, {
+    message: "Phone is required",
   }),
 });
 
