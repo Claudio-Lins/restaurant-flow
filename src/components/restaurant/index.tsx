@@ -5,7 +5,9 @@ import { getRestaurant } from "@/data/restaurant";
 
 import { CreateRestaurantForm } from "./create-restaurant-form";
 import UpdateButton from "./update-button";
+import { UpdateAddressForm } from "./update-forms/update-address-form";
 import { UpdateDescriptionForm } from "./update-forms/update-description-form";
+import { UpdateEmailForm } from "./update-forms/update-email-form";
 import { UpdateNameForm } from "./update-forms/update-name-form";
 
 export async function Restaurant() {
@@ -38,14 +40,14 @@ export async function Restaurant() {
             <strong className="w-40 ">Address</strong>
             <span className="flex-1 text-sm">{restaurant.address}</span>
             <div className="flex w-24 justify-end">
-              <UpdateButton />
+              <UpdateAddressForm restaurant={restaurant} />
             </div>
           </div>
           <div className="flex w-full items-center justify-between py-2">
             <strong className="w-40 ">E-mail</strong>
             <span className="flex-1 text-sm">{restaurant.email}</span>
             <div className="flex w-24 justify-end">
-              <UpdateButton />
+              <UpdateEmailForm restaurant={restaurant} />
             </div>
           </div>
           <div className="flex w-full items-center justify-between py-2">

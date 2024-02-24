@@ -6,7 +6,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { updateDescriptionRestaurant } from "@/actions/update-description-restaurant";
+import { updateEmailRestaurant } from "@/actions/update-email-restaurant";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
@@ -24,40 +24,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 
-import { RestaurantDescriptionSchema } from "../../../../schemas";
+import { RestaurantEmailSchema } from "../../../../schemas";
 
-interface UpdateDescriptionFormProps {
+interface UpdateEmailFormProps {
   restaurant: {
     id: string;
-    description: string | null;
+    email: string | null;
   };
 }
 
-export function UpdateDescriptionForm({
-  restaurant,
-}: UpdateDescriptionFormProps) {
+export function UpdateEmailForm({ restaurant }: UpdateEmailFormProps) {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-  const form = useForm<z.infer<typeof RestaurantDescriptionSchema>>({
-    resolver: zodResolver(RestaurantDescriptionSchema),
+  const form = useForm<z.infer<typeof RestaurantEmailSchema>>({
+    resolver: zodResolver(RestaurantEmailSchema),
     defaultValues: {
       id: restaurant.id,
-      description: restaurant.description || "",
+      email: restaurant.email || "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RestaurantDescriptionSchema>) => {
+  const onSubmit = (values: z.infer<typeof RestaurantEmailSchema>) => {
     setError("");
     setSuccess("");
     startTransition(() => {
       startTransition(() => {
-        updateDescriptionRestaurant(values).then((data) => {
+        updateEmailRestaurant(values).then((data) => {
           setError(data.error);
           setIsDialogOpen(false);
         });
@@ -83,14 +81,15 @@ export function UpdateDescriptionForm({
               <div className="w-full">
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Textarea
+                        <Input
                           {...field}
                           disabled={isPending}
+                          type="email"
                           className="w-full"
                         />
                       </FormControl>
