@@ -99,3 +99,17 @@ export const RestaurantSchema = z.object({
     message: "Website is required",
   }),
 });
+
+export const RestaurantNameSchema = z.object({
+  id: z.string(),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+});
+
+export const RestaurantDescriptionSchema = z.object({
+  id: z.string(),
+  description: z.string().min(1, {
+    message: "Description is required",
+  }),
+});

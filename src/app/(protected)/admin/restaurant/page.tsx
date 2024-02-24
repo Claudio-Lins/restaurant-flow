@@ -1,5 +1,6 @@
-import { Plus, Store } from "lucide-react";
+import { Store } from "lucide-react";
 
+import { Restaurant } from "@/components/restaurant";
 import { Separator } from "@/components/ui/separator";
 
 export default function RestaurantPage() {
@@ -10,10 +11,8 @@ export default function RestaurantPage() {
         <h1 className="mb-0 inline-block text-muted">Restaurants</h1>
       </div>
       <Separator />
-      <div className="h-[calc(80vh)] rounded-lg bg-slate-100/50 p-8">
-        <div className="flex h-32 w-32 items-center justify-center rounded-lg border shadow-md">
-          <Plus size={32} className="text-muted" />
-        </div>
+      <div className="flex h-[calc(80vh)] w-full items-center justify-center rounded-lg bg-slate-100/50 p-8">
+        <Restaurant />
       </div>
     </div>
   );

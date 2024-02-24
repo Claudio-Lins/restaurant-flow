@@ -126,7 +126,7 @@ model Product {
   price       Int
   categoryId  String
   category    Category     @relation(fields: [categoryId], references: [id])
-  ingredients Ingredient[]
+  ingredients Ingredient[] @relation("ProductIngredients")
   orderItem   OrderItem[]
 
   createdAt DateTime @default(now())
@@ -145,10 +145,10 @@ model Category {
 }
 
 model Ingredient {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
   imageUrl  String?
-  product   Product? @relation(fields: [productId], references: [id])
+  products  Product[] @relation("ProductIngredients")
   productId String?
 
   createdAt DateTime @default(now())
@@ -158,13 +158,20 @@ model Ingredient {
 model Order {
   id          String      @id @default(cuid())
   tableNumber Int
-  status      String
+  status      OrderStatus @default(PENDING)
   waiter      Waiter      @relation(fields: [waiterId], references: [id])
   waiterId    String
   orderItems  OrderItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
 model OrderItem {
