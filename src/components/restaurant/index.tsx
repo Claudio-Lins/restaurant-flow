@@ -10,6 +10,7 @@ import { UpdateDescriptionForm } from "./update-forms/update-description-form";
 import { UpdateEmailForm } from "./update-forms/update-email-form";
 import { UpdateNameForm } from "./update-forms/update-name-form";
 import { UpdatePhoneForm } from "./update-forms/update-phone-form";
+import { UpdateWebsiteForm } from "./update-forms/update-website-form";
 
 export async function Restaurant() {
   const restaurant = await getRestaurant();
@@ -62,7 +63,7 @@ export async function Restaurant() {
             <strong className="w-40 ">Website</strong>
             <span className="flex-1 text-sm">{restaurant.website}</span>
             <div className="flex w-24 justify-end">
-              <UpdateButton />
+              <UpdateWebsiteForm restaurant={restaurant} />
             </div>
           </div>
           <div className="flex w-full items-center justify-between py-2">
