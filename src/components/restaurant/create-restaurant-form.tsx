@@ -1,9 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UploadCloud } from "lucide-react";
 import {
   CldImage,
-  CldUploadButton,
+  CldUploadWidget,
   CldUploadWidgetResults,
 } from "next-cloudinary";
 import { useState, useTransition } from "react";
@@ -178,7 +179,7 @@ export function CreateRestaurantForm() {
               <div className="flex flex-1 flex-col">
                 <FormLabel className="">Image</FormLabel>
                 <div className="mt-2 flex w-full flex-1 items-center justify-center gap-4 rounded-md border border-dashed p-2">
-                  <CldUploadButton
+                  <CldUploadWidget
                     onUpload={(result: CldUploadWidgetResults) => {
                       if (
                         result.event === "success" &&
@@ -189,7 +190,22 @@ export function CreateRestaurantForm() {
                       }
                     }}
                     uploadPreset="restaurant-flow"
-                  />
+                  >
+                    {({ open }) => {
+                      return (
+                        <Button
+                          variant="link"
+                          onClick={() => open()}
+                          className=" text-white"
+                        >
+                          <div className="flex flex-col items-center ">
+                            <UploadCloud size={32} />
+                            <p>Upload Image</p>
+                          </div>
+                        </Button>
+                      );
+                    }}
+                  </CldUploadWidget>
                   {imageId && (
                     <CldImage
                       width="60"
@@ -211,16 +227,6 @@ export function CreateRestaurantForm() {
           </Button>
         </form>
       </Form>
-      {/* <Dialog>
-        <DialogTrigger asChild>
-          <Button>Create Restaurant</Button>
-        </DialogTrigger>
-        <DialogContent className="w-[800px] max-w-none">
-          <DialogTitle>Create Restaurant</DialogTitle>
-          <Separator />
-          
-        </DialogContent>
-      </Dialog> */}
     </div>
   );
 }

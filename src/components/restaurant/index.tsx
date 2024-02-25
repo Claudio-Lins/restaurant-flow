@@ -4,10 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRestaurant } from "@/data/restaurant";
 
 import { CreateRestaurantForm } from "./create-restaurant-form";
-import UpdateButton from "./update-button";
 import { UpdateAddressForm } from "./update-forms/update-address-form";
 import { UpdateDescriptionForm } from "./update-forms/update-description-form";
 import { UpdateEmailForm } from "./update-forms/update-email-form";
+import { UpdateImageForm } from "./update-forms/update-image-form";
 import { UpdateNameForm } from "./update-forms/update-name-form";
 import { UpdatePhoneForm } from "./update-forms/update-phone-form";
 import { UpdateWebsiteForm } from "./update-forms/update-website-form";
@@ -77,7 +77,7 @@ export async function Restaurant() {
             />
             <span className="flex-1 truncate text-sm">{restaurant.image}</span>
             <div className="flex w-24 justify-end">
-              <UpdateButton />
+              <UpdateImageForm restaurant={restaurant} />
             </div>
           </div>
         </CardContent>

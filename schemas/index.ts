@@ -141,3 +141,10 @@ export const RestaurantWebsiteSchema = z.object({
     message: "Website is required",
   }),
 });
+
+export const RestaurantImageSchema = z.object({
+  id: z.string(),
+  image: z.string().url({
+    message: "Image is required",
+  }),
+});
