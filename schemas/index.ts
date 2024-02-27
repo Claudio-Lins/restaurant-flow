@@ -148,3 +148,12 @@ export const RestaurantImageSchema = z.object({
     message: "Image is required",
   }),
 });
+
+export const IngredientSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+  imageUrl: z.string().url({
+    message: "Image is required",
+  }),
+});
