@@ -1,23 +1,25 @@
 "use client";
 
-import { Ingredient } from "@prisma/client";
+import { Category, Ingredient } from "@prisma/client";
 import { X } from "lucide-react";
 
+import { deleteCategory } from "@/actions/delete-category";
 import { deleteIngredient } from "@/actions/delete-ingredient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UseTabsStore } from "@/store/tabs-store";
 
 import { Badge } from "../ui/badge";
+import { CreateCategoryForm } from "./create-category-form";
 import { CreateIngredientForm } from "./create-ingredient-form";
 
 interface CreateProductProps {
   ingredients: Ingredient[];
+  categories: Category[];
 }
 
-export function CreateProduct({ ingredients }: CreateProductProps) {
+export function CreateProduct({ ingredients, categories }: CreateProductProps) {
   const {
     activeTab,
-    setActiveTab,
     setCategoryTab,
     productTab,
     setIngredintTab,
@@ -25,11 +27,6 @@ export function CreateProduct({ ingredients }: CreateProductProps) {
     ingredintTab,
     setProductTab,
   } = UseTabsStore();
-
-  // useEffect(() => {
-  //   setActiveTab("product");
-  //   console.log("Active tab set to product:", activeTab);
-  // }, [activeTab, setActiveTab]);
 
   return (
     <div className="flex h-full w-full space-x-4">
@@ -51,13 +48,42 @@ export function CreateProduct({ ingredients }: CreateProductProps) {
           >
             Category
           </TabsTrigger>
-          <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
+          <TabsTrigger
+            value="ingredients"
+            onClick={() => {
+              setIngredintTab("ingredients");
+            }}
+          >
+            Ingredients
+          </TabsTrigger>
         </TabsList>
         <TabsContent value={productTab}>
           <div className="h-full w-full bg-blue-400 p-4">{productTab}</div>
         </TabsContent>
-        <TabsContent value={categoryTab}>{categoryTab}</TabsContent>
-        <TabsContent value="ingredients">
+        <TabsContent value={categoryTab}>
+          {" "}
+          <CreateCategoryForm />
+          <div className="mt-4 flex flex-wrap justify-center gap-2 px-2">
+            {categories.map((category) => (
+              <Badge
+                className="flex items-center hover:bg-slate-400/50"
+                key={category.id}
+                variant="outline"
+              >
+                {category.name}
+                <X
+                  onClick={() =>
+                    deleteCategory(category.id).then(() => {
+                      console.log("Category deleted");
+                    })
+                  }
+                  className="ml-1 h-3 w-3 cursor-pointer font-semibold hover:text-red-500"
+                />
+              </Badge>
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value={ingredintTab}>
           <CreateIngredientForm />
           <div className="mt-4 flex flex-wrap justify-center gap-2 px-2">
             {ingredients.map((ingredient) => (
