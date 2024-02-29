@@ -23,6 +23,7 @@ import { ProductSchema } from "../../../schemas";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Label } from "../ui/label";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface CreateProductFormProps {
   categories: Category[];
@@ -70,8 +71,11 @@ export function CreateProductForm({
   }
   return (
     <div className="flex w-full flex-col space-y-6">
-      <Card className="max-w-none">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <Card className="flex h-[510px] max-w-none flex-col justify-between">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-1 flex-col justify-between"
+        >
           <CardContent className="w-full">
             <div className="mt-4 space-y-4">
               <div className="flex w-full items-center gap-2">
@@ -124,34 +128,46 @@ export function CreateProductForm({
                       })}
                     </select>
                   </div>
-                  <div className="mt-2 flex flex-col gap-2">
-                    <Label>Ingredients</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {ingredients.map((ingredient) => (
-                        <div
-                          key={ingredient.id}
-                          className="flex items-center gap-1 text-xs "
-                        >
-                          <input
-                            className="h-3 w-3 rounded-md"
-                            type="checkbox"
-                            id={ingredient.name}
-                            value={ingredient.id}
-                            {...register("ingredients")}
-                          />
-                          <label htmlFor={ingredient.name}>
-                            {ingredient.name}
-                          </label>
-                        </div>
-                      ))}
+                  <Label className="mt-2">Ingredients</Label>
+                  <ScrollArea className="h-[130px] w-full rounded-md border bg-zinc-50/50 px-4 pb-2">
+                    <div className="mt-2 flex flex-col gap-2">
+                      <div className="flex flex-wrap gap-2">
+                        {ingredients.map((ingredient) => (
+                          <div
+                            key={ingredient.id}
+                            className="flex items-center gap-1 text-xs "
+                          >
+                            <input
+                              className="h-3 w-3 rounded-md"
+                              type="checkbox"
+                              id={ingredient.name}
+                              value={ingredient.id}
+                              {...register("ingredients")}
+                            />
+                            <label htmlFor={ingredient.name}>
+                              {ingredient.name}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  </ScrollArea>
                 </div>
 
                 <div className="flex flex-col">
                   <Label className="">Image</Label>
-                  <div className="mt-2 flex w-full flex-1 items-center justify-center gap-4 rounded-md border border-dashed p-4">
+                  <div className="mt-2 flex w-full flex-1 flex-col items-center justify-center gap-4 rounded-md border border-dashed">
                     <CldUploadWidget
+                      options={{
+                        sources: [
+                          "local",
+                          "url",
+                          "image_search",
+                          "camera",
+                          "unsplash",
+                          "google_drive",
+                        ],
+                      }}
                       onUpload={(result: CldUploadWidgetResults) => {
                         if (
                           result.event === "success" &&
@@ -180,8 +196,8 @@ export function CreateProductForm({
                     </CldUploadWidget>
                     {imageId && (
                       <CldImage
-                        width="60"
-                        height="60"
+                        width="110"
+                        height="110"
                         src={imageId}
                         sizes="100vw"
                         alt={"Ingredients Image"}

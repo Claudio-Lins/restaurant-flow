@@ -1,23 +1,24 @@
 "use client";
 
 import { Category, Ingredient, Product } from "@prisma/client";
-import { X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
-import { deleteCategory } from "@/actions/delete-category";
-import { deleteIngredient } from "@/actions/delete-ingredient";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import { UseTabsStore } from "@/store/tabs-store";
 
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { CreateCategoryForm } from "./create-category-form";
 import { CreateIngredientForm } from "./create-ingredient-form";
 import { CreateProductForm } from "./create-product-form";
@@ -33,6 +34,7 @@ export function CreateProduct({
   categories,
   products,
 }: CreateProductProps) {
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const {
     activeTab,
     setCategoryTab,
@@ -45,7 +47,7 @@ export function CreateProduct({
 
   return (
     <div className="flex h-full w-full space-x-4">
-      <Tabs defaultValue={activeTab} className="flex h-full w-1/2 flex-col">
+      <Tabs defaultValue={activeTab} className="flex w-1/2 flex-col">
         <TabsList className="w-full space-x-6">
           <TabsTrigger
             value={"product"}
@@ -72,55 +74,17 @@ export function CreateProduct({
             Ingredients
           </TabsTrigger>
         </TabsList>
-        <TabsContent value={productTab}>
+        <TabsContent value={productTab} className="flex-1">
           <CreateProductForm
             ingredients={ingredients || []}
             categories={categories || []}
           />
         </TabsContent>
         <TabsContent value={categoryTab}>
-          <CreateCategoryForm />
-          <div className="mt-4 flex flex-wrap justify-center gap-2 px-2">
-            {categories.map((category) => (
-              <Badge
-                className="flex items-center hover:bg-slate-400/50"
-                key={category.id}
-                variant="outline"
-              >
-                {category.name}
-                <X
-                  onClick={() =>
-                    deleteCategory(category.id).then(() => {
-                      console.log("Category deleted");
-                    })
-                  }
-                  className="ml-1 h-3 w-3 cursor-pointer font-semibold hover:text-red-500"
-                />
-              </Badge>
-            ))}
-          </div>
+          <CreateCategoryForm categories={categories || []} />
         </TabsContent>
         <TabsContent value={ingredintTab}>
-          <CreateIngredientForm />
-          <div className="mt-4 flex flex-wrap justify-center gap-2 px-2">
-            {ingredients.map((ingredient) => (
-              <Badge
-                className="flex items-center hover:bg-slate-400/50"
-                key={ingredient.id}
-                variant="outline"
-              >
-                {ingredient.name}
-                <X
-                  onClick={() =>
-                    deleteIngredient(ingredient.id).then(() => {
-                      console.log("Ingredient deleted");
-                    })
-                  }
-                  className="ml-1 h-3 w-3 cursor-pointer font-semibold hover:text-red-500"
-                />
-              </Badge>
-            ))}
-          </div>
+          <CreateIngredientForm ingredients={ingredients || []} />
         </TabsContent>
       </Tabs>
       <div className="w-1/2 flex-1 rounded-md border p-4">
@@ -145,45 +109,76 @@ export function CreateProduct({
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </DialogDescription>
+                    <DialogTitle>{product.name}</DialogTitle>
+                    <DialogDescription>{product.description}</DialogDescription>
                   </DialogHeader>
+                  <div className="w-full">
+                    <div
+                      onMouseEnter={() => setIsDetailsOpen(true)}
+                      onMouseLeave={() => setIsDetailsOpen(false)}
+                      className="relative h-[360px] w-full cursor-pointer overflow-hidden"
+                    >
+                      <Image
+                        src={product.imageUrl || ""}
+                        alt={product.name}
+                        width={640}
+                        height={460}
+                        className=" bg-position-center w-full rounded-md bg-cover"
+                      />
+                      <div
+                        className={cn(
+                          "transation-all absolute inset-0 flex h-full w-full flex-col space-y-2 bg-black bg-opacity-75 p-4 text-white duration-300 ease-in-out",
+                          isDetailsOpen ? "top-40" : "top-96",
+                        )}
+                      >
+                        <div className="ml-auto text-2xl font-bold">
+                          {(product.price / 100).toLocaleString("pt-PT", {
+                            style: "currency",
+                            currency: "EUR",
+                          })}
+                        </div>
+                        <div className="">
+                          <p className="text-lg font-bold">Category:</p>
+                          <Badge
+                            variant="outline"
+                            className=" text-white hover:bg-slate-400/50"
+                          >
+                            {product.category?.name || ""}
+                          </Badge>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <span className="text-lg font-bold">
+                            Ingredients:
+                          </span>
+                          <div className="flex flex-wrap gap-2">
+                            {product.ingredients.map((ingredient: any) => (
+                              <Badge
+                                className="flex items-center text-white hover:bg-slate-400/50"
+                                key={ingredient.id}
+                                variant="outline"
+                              >
+                                {ingredient.name}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <div className="flex w-full items-center justify-between gap-4">
+                      <Button className="w-full">Update</Button>
+                      <Button className="w-full" variant="destructive">
+                        Delete
+                      </Button>
+                    </div>
+                  </DialogFooter>
                 </DialogContent>
               </Dialog>
             ))}
           </div>
         )}
       </div>
-      {/* <div className="w-1/2 flex-1 rounded-md border p-4">
-        {products.map((product: any) => (
-          <div key={product.id} className="flex items-center gap-4">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold">{product.name}</h3>
-              <p className="text-sm">{product.description}</p>
-              <p className="text-sm">{product.price}</p>
-            </div>
-            <div className="flex w-full flex-wrap justify-center gap-1">
-              {product.ingredients.map((ingredient: Ingredient) => (
-                <Badge key={ingredient.id} variant="outline">
-                  {ingredient.name}
-                </Badge>
-              ))}
-            </div>
-            <div>
-              <Image
-                src={product.imageUrl || ""}
-                alt={product.name}
-                width={64}
-                height={64}
-                className="h-16 w-16 rounded-md"
-              />
-            </div>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 }
