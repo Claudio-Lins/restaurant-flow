@@ -24,7 +24,23 @@ export default auth((req: { auth?: any; nextUrl: any }) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      // Verifique o papel do usuário e redirecione para a página apropriada
+      const userRole = req.auth.role; // Supondo que o papel do usuário esteja disponível em req.auth.role
+      let redirectUrl;
+      switch (userRole) {
+        case "admin":
+          redirectUrl = "/admin";
+          break;
+        case "moderator":
+          redirectUrl = "/moderator";
+          break;
+        case "manager":
+          redirectUrl = "/manager";
+          break;
+        default:
+          redirectUrl = DEFAULT_LOGIN_REDIRECT;
+      }
+      return Response.redirect(new URL(redirectUrl, nextUrl));
     }
     return null;
   }

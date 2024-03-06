@@ -4,6 +4,7 @@ import { LogOutIcon, User } from "lucide-react";
 
 import { useCurrentUser } from "@/hooks/user-current-user";
 
+import { ExtendedUser } from "../../../next-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -12,6 +13,11 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { LogoutButton } from "./logout-button";
+
+interface UserButtonProps {
+  user: ExtendedUser | undefined;
+}
+
 export function UserButton() {
   const user = useCurrentUser();
   return (
